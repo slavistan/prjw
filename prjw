@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+
+errln() { echo "\033[31;1m[ERR ]\033[0m $@"; }
+logln() { echo "\033[32;1m[INFO]\033[0m $@"; }
+die() { echo "$@"; exit 1; }
+
+_usage() {
+  echo "usage todo"
+}
+
+__check/parseopts() {
+  zparseopts -- -config=config
+  [ "$config" ] || config="~/.config/$MYNAME/${MYNAME}rc"
+  echo "config = $config"
+}
+
+_check() {
+  echo "_check()"
+}
+
+MYPATH=${0:A}
+MYNAME=${0:A:t}
+
+set -- check
+
+case "$1" in
+  check)
+    shift
+    __check/parseopts "$@"
+    _check ;;
+  watch)
+    _watch ;;
+  -h|--help|-?) _usage;;
+  *) die "Unknown command. Try '\033[1;3m$MYNAME --help\033[0m'." ;;
+esac
+
+
