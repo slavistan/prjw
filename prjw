@@ -8,10 +8,12 @@ _usage() {
   echo "usage todo"
 }
 
+set -- check --config sasa
+
 __check/parseopts() {
-  zparseopts -- -config=config
-  [ "$config" ] || config="~/.config/$MYNAME/${MYNAME}rc"
-  echo "config = $config"
+  local -A opts; opts=(--config "~/.config/$MYNAME/${MYNAME}rc")
+  zparseopts -K -- -config:=opts
+  echo "config = $opts[--config]"
 }
 
 _check() {
@@ -20,8 +22,6 @@ _check() {
 
 MYPATH=${0:A}
 MYNAME=${0:A:t}
-
-set -- check
 
 case "$1" in
   check)
